@@ -33,7 +33,7 @@ export function CreateBlog() {
           category: Yup.string().required("Content is required"),
         })}
         onSubmit={(values) => {
-          const Create = async () => {
+          const createPost = async () => {
             const currentDate = new Date().toLocaleString("vi-VN", {
               day: "numeric",
               month: "numeric",
@@ -47,7 +47,7 @@ export function CreateBlog() {
             alert("Create Successful");
             navigate("/");
           };
-          Create();
+          createPost();
         }}
       >
         <Form>

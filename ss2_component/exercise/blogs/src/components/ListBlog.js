@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 export function ListBlog() {
   const [post, setPost] = useState([]);
   const [postIdToDelete, setPostIdToDelete] = useState(null);
+  
+  const getPost = async () => {
+    let rs = await BlogService.getAll();
+    setPost(rs);
+  };
 
   useEffect(() => {
-    const getPost = async () => {
-      let rs = await BlogService.getAll();
-      setPost(rs);
-      console.log(rs);
-    };
     getPost();
   }, []);
 
@@ -22,9 +22,7 @@ export function ListBlog() {
   const handleDelete = async (postIdToDelete) => {
     await BlogService.remove(postIdToDelete);
     alert("Delete successfully")
-    let rs = await BlogService.getAll();  
-    setPost(rs);
-    
+    getPost();
   };
 
   return (

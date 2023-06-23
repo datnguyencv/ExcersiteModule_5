@@ -10,12 +10,11 @@ export function EditBlog() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const find = async () => {
+    const findPost = async () => {
       let rs = await BlogService.findId(param.id);
       setPostFind(rs.data);
-      console.log(rs.data);
     };
-    find();
+    findPost();
   }, [param.id]);
   if (!postFind) {
     return null;
@@ -40,15 +39,14 @@ export function EditBlog() {
           category: Yup.string().required("Content is required"),
         })}
         onSubmit={(values) => {
-          const Create = async () => {
+          const updatePost = async () => {
             values.slug = values.title.toLowerCase();
             values.updatedAt = Date.now().toLocaleString();
             await BlogService.update(values);
-            console.log(values);
             alert("Update Successful");
             navigate("/");
           };
-          Create();
+          updatePost();
         }}
       >
         <Form>
