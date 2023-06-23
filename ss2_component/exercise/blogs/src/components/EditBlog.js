@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import * as BlogService from "../services/BlogService";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import navigate, { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export function EditBlog() {
   const [postFind, setPostFind] = useState([]);
   const param = useParams();
   const navigate = useNavigate();
+  const currentDate = new Date().toLocaleString();
 
   useEffect(() => {
     const findPost = async () => {
@@ -40,8 +41,8 @@ export function EditBlog() {
         })}
         onSubmit={(values) => {
           const updatePost = async () => {
-            values.slug = values.title.toLowerCase();
-            values.updatedAt = Date.now().toLocaleString();
+            values.updatedAt = currentDate;
+            values.slug = values.title.toLowerCase().replace(/\s+/g, "-");
             await BlogService.update(values);
             alert("Update Successful");
             navigate("/");

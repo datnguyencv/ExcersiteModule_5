@@ -1,19 +1,11 @@
-import { useState } from "react";
 import * as BlogService from "../services/BlogService";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import navigate, { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function CreateBlog() {
   const navigate = useNavigate();
-  const [slug, setSlug] = useState("");
-
-  const handleChangeTitle = (event) => {
-    const title = event.target.value;
-    const slugValue = title.toLowerCase().replace(/\s+/g, "-");
-    setSlug(slugValue);
-  };
-
+  const currentDate = new Date().toLocaleString();
   return (
     <>
       <h1>Create Blog</h1>
@@ -28,21 +20,13 @@ export function CreateBlog() {
         enableReinitialize={true}
         validationSchema={Yup.object({
           title: Yup.string().required("Title is required"),
-          slug: Yup.string().required("Slug is required"),
           content: Yup.string().required("Content is required"),
           category: Yup.string().required("Content is required"),
         })}
         onSubmit={(values) => {
           const createPost = async () => {
-            const currentDate = new Date().toLocaleString("vi-VN", {
-              day: "numeric",
-              month: "numeric",
-              year: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
-            });
-            values = { ...values, updatedAt: currentDate };
+            values.updatedAt = currentDate;
+            values.slug = values.title.toLowerCase().replace(/\s+/g, "-");
             await BlogService.create(values);
             alert("Create Successful");
             navigate("/");
@@ -61,7 +45,6 @@ export function CreateBlog() {
               name="title"
               id="title"
               placeholder="Please Enter here"
-              onChange={handleChangeTitle}
             />
             <ErrorMessage name="title" component='span' className="form-text text-danger"/>
           </div>
@@ -75,7 +58,6 @@ export function CreateBlog() {
               name="slug"
               id="slug"
               placeholder="Auto commit with Title"
-              values ={slug}
               readOnly
             />
             <ErrorMessage name="slug" component='span' className="form-text text-danger"/>
