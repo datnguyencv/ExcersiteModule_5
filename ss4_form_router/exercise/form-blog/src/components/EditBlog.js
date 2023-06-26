@@ -9,12 +9,11 @@ export function EditBlog() {
   const navigate = useNavigate(null);
   const param = useParams();
 
-  const [postDetail, setPostDetail] = useState([]);
+  const [postDetail, setPostDetail] = useState();
   useEffect(() => {
     const metadata = async () => {
       let rs = await BlogService.findById(param.id);
       setPostDetail(rs.data); 
-      console.log(rs.data);
     };
     metadata();
   }, [param.id]);
