@@ -7,12 +7,12 @@ export function DetailBlog() {
 
   const [postDetail, setPostDetail] = useState([]);
   useEffect(() => {
-    const metadata = async () => {
+    const getDetail = async () => {
       let rs = await BlogService.findById(param.id);
       setPostDetail(rs.data); 
       console.log(rs.data);
     };
-    metadata();
+    getDetail();
   }, [param.id]);
 
   if(!postDetail) {
