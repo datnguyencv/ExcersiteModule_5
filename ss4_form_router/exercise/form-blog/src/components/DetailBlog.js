@@ -10,7 +10,6 @@ export function DetailBlog() {
     const getDetail = async () => {
       let rs = await BlogService.findById(param.id);
       setPostDetail(rs.data); 
-      console.log(rs.data);
     };
     getDetail();
   }, [param.id]);
